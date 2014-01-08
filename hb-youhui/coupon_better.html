@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优惠券</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <link rel="Shortcut Icon" href="favicon.png" type="image/x-icon" />
+
+    <link rel="stylesheet" type="text/css" href="http://g.tbcdn.cn/mtb/lib-notification/0.1.5/notification1x.css">
+    <style>
+        body,p,h4,ul,li,img{
+            margin: 0;
+            padding: 0;
+        }
+        a{text-decoration: none;}
+        ul{ list-style: none;}
+        body{
+            font-size: 12px;
+            font-family: "Hiragino Sans GB", Tahoma, Arial, serif;
+            background-color: #F4F4F4;
+        }
+        * { -webkit-tap-highlight-color: rgba(0,0,0,0);}
+        .clx{ zoom: 1;}
+        .clx:after{
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+            overflow: hidden;
+        }
+        
+        #loading{
+            padding: 20px 0;
+            background: url(http://gtms01.alicdn.com/tps/i1/T10Q1iFlBfXXcr88bb-25-25.gif) center center no-repeat;
+        }
+        
+        .award-wrap{
+            width: 300px;
+            margin:0 auto;
+        }
+
+        .msg-none{
+            padding: 60px 10px 0 10px;
+            text-align: center;
+            /*color: #666;*/
+            font-size: 14px;
+        }
+        .msg-none h4{
+            margin-top: 20px;
+            color: #333;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .msg-none p{ margin-top: 10px; }
+        .msg-none .msgtxt{ color: #999; }
+
+
+        .coupon{ margin-bottom: 10px;}
+        .coupon .li{ margin-top: 10px;}
+        
+        .coupon .item{
+            position: relative;
+            height: 102px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(0,0,0,.06) rgba(0,0,0,.1) rgba(0,0,0,.1) rgba(0,0,0,.06);
+        }
+
+        .coupon .item-1{
+            background: #ee5475;
+        }
+        .coupon .cleft{
+            float: left;    
+            padding: 5px 0 0 8px;
+        }
+        .coupon .cleft .rmb{
+            display: inline-block;
+            width: 16px;
+            height: 18px;
+            margin-right:5px;
+            background: url(http://gtms02.alicdn.com/tps/i2/T1_.a9FbRhXXbahwTd-33-37.png) no-repeat;
+            background-size: contain;
+        }
+        .coupon .cleft .shopname{
+            color: #fff;
+            font-size: 14px;
+        }
+        .coupon .cleft .money{
+            padding: 5px 0;
+            color: #fff;
+            font-size: 48px;
+            line-height: 48px;
+            font-weight: bold;
+        }
+        
+        .coupon .cleft .desc{
+            color: #fff;
+            font-weight: bolder;
+        }
+        
+        .coupon .cright{
+            float: right;
+            position: absolute;
+            right: -1px;
+            top: -1px;
+        
+            width: 94px;
+            height: 92px;
+            padding-top: 10px;
+        
+            color: #888;
+            line-height: 12px;
+            text-align: center;
+        
+            border-top: 1px solid #E9E9E9;
+            border-right: 1px solid #E9E9E9;
+            border-bottom: 1px solid #D9D9D9;
+        
+            background-color: #FFF;
+        }
+        .coupon .cright p{    
+            padding: 1px 0 2px 0;
+        }
+        .coupon .cright .use{
+            padding-top: 10px;
+        }
+        .coupon .cright .limit{
+            padding-bottom: 7px;
+        }
+        
+        .coupon .item-1{
+            background: #ee5475;
+        }
+        .coupon .item-2{    
+            background: #fdab16;
+        }
+        .coupon .item-3{    
+            background: #92c526;
+        }
+        .coupon .item-4{    
+            background: #4bb4de;
+        }
+        
+        .more{
+            display: none;
+            margin: 20px 0 80px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+        .more .loading{
+            /*display: none;*/
+            
+            color: #999;
+            font-size: 12px;
+
+            opacity: 0;            
+        }
+        
+        .more .btn-more{
+            display: inline-block;    
+            padding: 5px 12px;
+            color: #666;
+            font-size: 14px;
+            outline: none;
+            text-decoration: none;
+            background-color: #F9F9F9;
+            border-radius: 3px;
+            border: 1px solid #CCC;
+            box-shadow: 0 1px 2px rgba(0,0,0,.1);
+        }
+        .more .btn-more:active{
+            background-color: #F3F3F3;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+        }
+        .more .btn-more.disabled{
+            opacity: .5;
+            box-shadow: 0 1px 1px #FFF;
+        }
+
+        .more.waiting .loading{
+            /*display: block;*/
+            opacity: 1;
+            /*单程动画*/
+            transition: opacity .2s;
+            -webkit-transition: opacity .2s;
+        }
+        .more.waiting .btn-more{ display: none;}
+
+        #toTop{
+            display: none;
+            opacity: 0;
+        
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        #toTop a{
+            display: inline-block;
+            width: 84px;
+            height: 35px;
+            background: url(http://gtms02.alicdn.com/tps/i2/T1M0SbXxRiXXXCaLnh-168-70.png) center center no-repeat;
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+    <div class="award-wrap">
+        
+        <!-- <div id="nondata" style="display:none;">
+            <img src="http://gtms01.alicdn.com/tps/i1/T1S.A1Fi0cXXbPM9kj-315-273.png" alt="empty" width="100px">
+            <p id="nondataText">亲，您现在还没有优惠券，去其它地方逛逛~</p>
+        </div> -->
+
+        <div id="msgNodata" class="msg-none" style="display:none;">
+            <img src="http://gtms01.alicdn.com/tps/i1/T1YKRFFvFkXXcsSpY4-200-200.png" alt="empty" width="100px">
+            <h4 class="msgtit"></h4>
+            <p class="msgtxt"></p>
+        </div>
+
+        
+        <div class="coupon" id="couponList"></div> <!-- #couponList -->
+
+        <div id="moreCoupon" class="more" style="display:none;">
+            <div class="loading">正在努力加载...</div>
+            <button class="btn-more">查看更多</button>
+        </div>
+        <div id="toTop"><a href="#"></a></div>
+    </div>
+
+    <script src="http://g.tbcdn.cn/mtb/zepto/1.0.4/zepto.js"></script>
+    <script src="http://g.tbcdn.cn/mtb/??lib-mtop/0.5.13/mtop.js,lib-login/0.2.7/login.js,lib-notification/0.1.5/notification.js"></script>
+    <script type="text/javascript">
+        ;(function(win, app) {
+            var $ = win['Zepto'];
+            var timer,
+                pagenum = 1,
+                conSize = 2;//30
+            
+            var couponList = $('#couponList'),
+                //nondata = $('#nondata'),
+                //nondataText = $('#nondataText'),
+                divMore = $('#moreCoupon'),
+                btnMore = divMore.find('.btn-more'),
+                loading = divMore.find('.loading');
+            
+            /*var msgMap = {
+                "error_getCoupon": "获取优惠券失败，请稍后再试！",
+                "error_nomore": "没有更多了！",
+                "error_server": "服务器开小差了，请稍后再试！",
+            };*/
+
+            var MSG = {
+                "err_getcoupon":    ['查询失败', '获取优惠券失败，请稍后再试！'],
+                "err_server":       ['查询失败', '服务器开小差了，请稍后再试！'],
+                "err_nocoupon":     ['您还没有优惠券', '不妨试试去其它地方领取优惠券']
+            };
+        
+            app.bindMore = function() {
+                var btnToTop = $('#toTop');
+                
+                /*
+                setTimeout(function(){
+                    btnMore.show();
+                }, 100);
+
+                btnMore.on('click', function(e){
+                    //
+                    e.preventDefault();
+                    app.getCoupon();
+                });
+                */                
+        
+                $(win).on('scroll', function(){
+        
+                    clearTimeout( timer );
+
+                    timer = setTimeout(function(){
+                        if ( document.body.scrollTop > 200 ) {
+                            btnToTop.show().animate({
+                                opacity: 1
+                            }, 200, 'ease-in', function(){
+                                $(this).show();
+                            });
+                        } else {
+                            btnToTop.animate({
+                                opacity: 0
+                            }, 200, 'ease-in', function(){
+                                $(this).hide();
+                            });
+                        }
+                    }, 200);
+                });
+
+                app.getCoupon();
+                
+                btnToTop.on('click', function(e){
+                    e.preventDefault();
+                    //document.body.scrollTop = 0;
+                    scrollTo(0, 300);//300ms滚到顶部
+                });
+                
+                function scrollTo( to, time ) {
+                    var from = parseInt( document.body.scrollTop ),
+                        runEvery = 20,//ms
+                        i = 0;
+                    to = parseInt( to );
+                    time /= runEvery;
+                    
+                    var interval = setInterval(function(){
+                        i++;
+                        
+                        document.body.scrollTop = from + ( to - from ) / time * i;
+                        if ( i >= time) {
+                            clearInterval( interval );
+                        }
+                    }, runEvery);
+                }
+            };
+            
+            /*app.showMsg = function( msg ){
+                //console.log( msg );
+                //lib.notification.simple(msg);
+                
+                if ( !!msg && msg !== '' ) {
+                    nondataText.html( msg );
+                }
+                nondata.show();
+            };*/
+
+            app.showMsgTip = function( msgType ) {
+                //
+                var msgNodata = $('#msgNodata');
+                if( MSG[msgType] ) {
+                    msgNodata.find('.msgtit').html( MSG[msgType][0] );
+                    msgNodata.find('.msgtxt').html( MSG[msgType][1] );
+                }
+                msgNodata.show();
+            };
+
+            
+            app.getCoupon = function() {
+                //
+                btnMore.on('click', function(e){
+                    //
+                    e.preventDefault();
+
+                    //添加标识，防重复点击请求
+                    if ( divMore.hasClass('waiting') ) {
+                        return;
+                    }
+                    divMore.addClass('waiting');
+
+                    lib.mtop.request(
+                        {
+                            api: 'mtop.msp.coupon.getMyCouponList',
+                            v: '1.0',
+                            data: {
+                                'page': pagenum,
+                                'size': conSize
+                            }
+                        },
+                        function ( dd ) {
+                            //OK 显示
+                            //去除防重复请求标识
+                            //setTimeout(function(){
+                                divMore.removeClass('waiting');
+                            //}, 1000);
+                            
+                            var ret = dd.ret[0],
+                                data = dd.data;
+            
+                            if ( ret ) {
+                                var type = ret.split('::')[0];
+                                if ( type === 'SUCCESS' ) {
+                                    //console.log(data);
+                                    
+                                    //没有更多数据
+                                    if ( !data.list ) {
+                                        /*显示列表时已对更多按钮已做处理
+
+                                        //无更多，弹出提示
+                                        lib.notification.simple( msgMap['error_nomore'] );
+            
+                                        setTimeout(function(){
+                                            //隐藏更多按钮
+                                            divMore.hide();
+                                        }, 3000);
+            
+                                        //禁用更多按钮
+                                        //btnMore.attr('disabled', 'disabled').addClass('disabled')
+                                        */
+                                        return;
+                                    }
+            
+                                    app.showCoupon( data.list, data.totalNums );
+                                    //成功回调 页码增加 pnum += 1;
+                                    pagenum += 1;
+            
+                                } else {
+                                    //
+                                    lib.notification.simple( '获取失败，请稍后再试！' );
+                                }
+                            }
+                        },
+                        function (result) {
+                            //error
+                            //去除防重复请求标识
+                            divMore.removeClass('waiting');
+
+                            lib.notification.simple( '获取失败，请稍后再试！' );
+                        }
+                    );
+                });
+            };
+        
+            app.showCoupon = function( data, total ) {
+                var i = 0,
+                    key,
+                    shopUrl = '',
+                    tempHTML = '',
+                    fragment = $('<div/>'),
+                    dataLen = data.length;
+        
+                //没有数据
+                if ( dataLen < 1 ) { return; }
+                
+                //是否显示更多按钮
+                if ( conSize * pagenum < total ) {
+                    //console.log('oooo');
+                    divMore.show();
+        
+                } else {
+                    //隐藏更多按钮
+                    divMore.hide();
+                }        
+                
+                for ( ; i < dataLen; i++ ) {
+                    key = data[i];
+        
+                    tempHTML += '<div class="li">';
+        
+                    //跳转店铺地址
+                    if ( !!key.jumpUrl ) {
+                        tempHTML += '<a href="'+ key.jumpUrl +'">';
+
+                    } else {
+                        //未指定jumpUrl
+                        //店铺类型
+                        switch( key.shopType ){
+                            case '-1':
+                                tempHTML += '<a href="#">';
+                                break;
+                            case '0':
+                                tempHTML += '<a href="http://shop.m.taobao.com/shop/shop_index.htm?shop_id='+ key.shopId +'">';
+                                break;
+                            case '1':
+                                tempHTML += '<a href="http://shop.m.tmall.com/shop/shop_index.htm?shop_id='+ key.shopId +'">';
+                                break;
+                        }
+                    }
+                    
+                    tempHTML +=     '<div class="item item-'+ (i%4 + 1) +'">';
+                    tempHTML +=         '<div class="cleft">';
+                    tempHTML +=             '<p class="shopname">'+ key.shopName +'</p>';
+                    tempHTML +=             '<div class="money"><span class="rmb"></span>'+ key.discount +'</div>';
+                    tempHTML +=             '<p class="desc">'+ key.condition +'</p>';
+                    tempHTML +=         '</div>';
+                    tempHTML +=         '<div class="cright">';
+                    tempHTML +=             '<p class="limit">使用期限</p>';
+                    tempHTML +=             '<p class="time">'+ key.startTime +'</p>';
+                    tempHTML +=             '<p class="time">'+ key.endTime +'</p>';
+                    tempHTML +=             '<p class="use">立即使用</p>';
+                    tempHTML +=         '</div>'
+                    tempHTML +=     '</div>';
+                    tempHTML += '</a></div>';
+                }
+                
+                //couponList.html( couponList.html() + tempHTML; );
+                //couponList[0].innerHTML += tempHTML;
+
+                fragment.html( tempHTML );
+                fragment.css('opacity', 0);
+
+                couponList.append( fragment );
+
+                //淡入显示列表
+                fragment.animate({
+                    opacity: 1
+                }, 500);
+
+            };
+            
+            app.initCoupon = function() {
+                //是否登录
+                if ( !lib.login.isLogin() ) {
+                    lib.login.goLogin();
+                    return;
+                }
+        
+                //优惠券初始请求
+                lib.mtop.request(
+                    {
+                        api: 'mtop.msp.coupon.getMyCouponList',
+                        v: '1.0',
+                        data: {
+                            'page': pagenum,
+                            'size': conSize
+                        }
+                    },
+                    function ( dd ) {
+                        //OK 显示
+                        var ret = dd.ret[0],
+                            data = dd.data;
+        
+                        if ( ret ) {
+                            var type = ret.split('::')[0];
+                            if ( type === 'SUCCESS' ) {
+                                //没有数据
+                                if ( !data.list ) {
+                                    //app.showMsg();
+                                    app.showMsgTip( 'err_nocoupon' );
+                                    return;
+                                }
+                                
+                                app.showCoupon( data.list, data.totalNums );
+
+                                //查看更多、返回顶部
+                                app.bindMore();
+
+                                //页码增加
+                                pagenum += 1;
+        
+                            } else {
+                                //app.showMsg( msgMap['error_getCoupon'] );
+                                app.showMsgTip( 'err_getcoupon' );
+                            }
+                        }
+                    },
+                    function (result) {
+                        //error
+                        //app.showMsg( msgMap['error_server'] );
+                        app.showMsgTip( 'err_server' );
+                    }
+                );
+            };
+        
+        })(window, window['app'] || (window['app'] = {}));
+        
+        app.initCoupon();
+    </script>
+
+</body>
+</html>

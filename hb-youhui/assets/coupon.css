@@ -1,0 +1,235 @@
+
+body,h4,p,ul,li,img,input,button,select,textarea{
+    margin: 0;
+    padding: 0;
+}
+ul{ list-style: none;}
+body{
+    font-size: 12px;
+    font-family: "Hiragino Sans GB", Tahoma, Arial, serif;
+    background-color: #F4F4F4;
+}
+.clx,
+.redpack .item{ zoom: 1;}
+.clx:after,
+.redpack .item:after{
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    overflow: hidden;
+}
+
+#loading{
+    padding: 20px 0;
+    background: url(http://gtms01.alicdn.com/tps/i1/T10Q1iFlBfXXcr88bb-25-25.gif) center center no-repeat;
+}
+
+.award-wrap{
+    width: 300px;
+    margin:0 auto;
+}
+
+.msg{
+    padding: 20px 0;
+    color: #666;
+    text-align: center;
+}
+.nodata{
+    padding-top: 20px;
+    text-align: center;
+}
+
+.msg-none{
+    padding: 72px 10px 0 10px;
+    text-align: center;
+    /*color: #666;*/
+    font-size: 14px;
+}
+.msg-none h4{
+    font-size: 20px;
+    font-weight: normal;
+}
+.msg-none p{ margin-top: 5px; }
+
+#bnrLaiwang{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #C00;
+}
+
+.redpack,
+.coupon{ margin-bottom: 10px;}
+
+.redpack .li,
+.coupon .li{ margin-top: 10px;}
+
+.redpack .li{
+    float: left;
+    margin-right: 10px;
+}
+.redpack .li:nth-child(2n){
+    margin-right: 0;
+}
+.redpack .item{
+    width: 145px;
+    height: 90px;
+    padding-top: 55px;
+
+    color: #FFF;
+    text-align: center;
+
+    border-radius: 5px;
+    background: url(http://gtms01.alicdn.com/tps/i1/T1zAu3Xy4gXXbqT.cq-291-103.png) center top no-repeat;
+    background-size: contain;
+    background-color: #FE5661;
+}
+.redpack .item .rmb,
+.coupon .cleft .rmb{
+    display: inline-block;
+    width: 16px;
+    height: 18px;
+    margin-right:5px;
+    background: url(http://gtms02.alicdn.com/tps/i2/T1_.a9FbRhXXbahwTd-33-37.png) no-repeat;
+    background-size: contain;
+}
+.redpack .item .rmb{
+    margin-right: 5px;
+}
+.redpack .item .money{
+    font-size: 36px;
+    /*font-weight: bold;*/
+}
+
+.redpack .item .date{
+    margin-top: 6px;
+}
+
+.coupon .item{
+    position: relative;
+    height: 102px;
+
+    border-width: 1px;
+    border-style: solid;
+
+    border-color: rgba(0,0,0,.06) rgba(0,0,0,.1) rgba(0,0,0,.1) rgba(0,0,0,.06);
+}
+
+.coupon .item-1{
+    background: #ee5475;
+}
+
+.coupon .cleft{
+    float: left;    
+    padding: 5px 0 0 8px;
+}
+.coupon .cleft .shopname{
+    color: #fff;
+    font-size: 14px;
+}
+.coupon .cleft .money{
+    padding: 5px 0;
+    color: #fff;
+    font-size: 48px;
+    line-height: 48px;
+    font-weight: bold;
+}
+
+.coupon .cleft .desc{
+    color: #fff;
+    font-weight: bolder;
+}
+
+.coupon .cright{
+    float: right;
+    position: absolute;
+    right: -1px;
+    top: -1px;
+
+    width: 94px;
+    height: 92px;
+    padding-top: 10px;
+
+    color: #888;
+    line-height: 12px;
+    text-align: center;
+
+    border-top: 1px solid #E9E9E9;
+    border-right: 1px solid #E9E9E9;
+    border-bottom: 1px solid #D9D9D9;
+
+    background-color: #FFF;
+}
+.coupon .cright p{    
+    padding: 1px 0 2px 0;
+}
+.coupon .cright .use{
+    padding-top: 10px;
+}
+.coupon .cright .limit{
+    padding-bottom: 7px;
+}
+
+
+.coupon .item-1{
+    background: #ee5475;
+}
+.coupon .item-2{    
+    background: #fdab16;
+}
+.coupon .item-3{    
+    background: #92c526;
+}
+.coupon .item-4{    
+    background: #4bb4de;
+}
+
+.more{
+    display: none;
+    margin: 20px 0 80px 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+.more .btn-more{
+    display: inline-block;    
+    padding: 5px 12px;
+    color: #666;
+    font-size: 14px;
+    text-decoration: none;
+    background-color: #F9F9F9;
+    border-radius: 3px;
+    border: 1px solid #CCC;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+.more .btn-more:focus{    
+    outline: none;
+    background-color: #F5F5F5;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+}
+.more .btn-more.disabled{
+    opacity: .5;
+    box-shadow: 0 1px 1px #FFF;
+}
+
+#toTop{
+    display: none;
+    opacity: 0;
+
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 10px;
+    text-align: center;
+}
+#toTop a{
+    display: inline-block;
+    width: 84px;
+    height: 35px;
+    background: url(http://gtms02.alicdn.com/tps/i2/T1M0SbXxRiXXXCaLnh-168-70.png) center center no-repeat;
+    background-size: contain;
+}

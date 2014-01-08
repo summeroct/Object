@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>红包</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <link rel="Shortcut Icon" href="favicon.png" type="image/x-icon" />
+
+    <link rel="stylesheet" type="text/css" href="assets/coupon.css">
+    <link rel="stylesheet" type="text/css" href="http://a.tbcdn.cn/g/mtb/lib-notification/0.1.5/notification1x.css">
+</head>
+<body>
+    <div class="award-wrap">
+        <!-- <div id="loading"></div> -->
+
+        <div id="nondata" class="msg-none" style="display:none;">
+            <img src="http://gtms01.alicdn.com/tps/i1/T1S.A1Fi0cXXbPM9kj-315-273.png" alt="empty" width="100px">
+            <p id="nondataText">亲，您现在还没有红包，去其它地方逛逛~</p>
+        </div>
+
+        <div id="noRedPack" class="msg-none" style="display:none;">
+            <img src="http://gtms01.alicdn.com/tps/i1/T1kFxuFr4cXXcsSpY4-200-200.png" alt="empty" width="100px">
+            <h4>您还没有红包</h4>
+            <p id="nondataText">不妨试试其它地方去领取红包</p>
+        </div>
+
+        <div id="bnrLaiwang" style="display:none;">d
+            <!--TMS:/rgn/base/whole/adsbn.html:TMS-->
+            <!--TMS:http://m.taobao.com/channel/rgn/mobile/act/redpakage.html:TMS-->
+        </div>
+
+        <div class="redpack clx" id="redList"></div>
+
+        <!-- <div class="more"><a id="moreRedpack" href="">查看更多</a></div> -->
+        <div id="toTop"><a href="#"></a></div>
+    </div>
+
+    <script src="http://a.tbcdn.cn/mw/base/libs/zepto/1.0.0/zepto.js"></script>
+    <script src="http://a.tbcdn.cn/g/mtb/??lib-mtop/0.5.12/mtop.js,lib-login/0.2.5/login.js,lib-aplus/1.2.0/aplus.js,lib-smartbanner/0.3.3/smartbanner.js,lib-notification/0.1.5/notification.js"></script>
+    <script src="src/coupon.js" type="text/javascript"></script>
+    <script type="text/javascript">app.initRedpack();</script>
+
+</body>
+</html>

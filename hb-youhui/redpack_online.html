@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>红包</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <link rel="Shortcut Icon" href="favicon.png" type="image/x-icon" />
+
+    <link rel="stylesheet" type="text/css" href="http://g.tbcdn.cn/mtb/lib-notification/0.1.5/notification1x.css">
+    <style>
+        body,p,h4,ul,li,img{
+            margin: 0;
+            padding: 0;
+        }
+        a{text-decoration: none;}
+        ul{ list-style: none;}
+        body{
+            font-size: 12px;
+            font-family: "Hiragino Sans GB", Tahoma, Arial, serif;
+            background-color: #F4F4F4;
+        }
+        * { -webkit-tap-highlight-color: rgba(0,0,0,0);}
+        .clx,
+        .redpack .item{ zoom: 1;}
+        .clx:after,
+        .redpack .item:after{
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+        .award-wrap{
+            width: 300px;
+            margin:0 auto;
+        }
+        
+        .msg{
+            padding: 20px 0;
+            color: #666;
+            text-align: center;
+        }
+        .msg-none{
+            padding: 60px 10px 0 10px;
+            text-align: center;
+            /*color: #666;*/
+            font-size: 14px;
+        }
+        .msg-none h4{
+            margin-top: 20px;
+            color: #333;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .msg-none p{ margin-top: 10px; }
+        .msg-none .msgtxt{ color: #999; }
+        
+        #bnrLaiwang{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            /*max-height: 60px;*/
+            overflow: hidden;
+            text-align: center;
+            border-top: 1px dashed #E0E0E0;
+            background-color: #FFF;
+        }
+        #bnrLaiwang img{
+            max-width: 100%;
+            vertical-align: middle;
+        }
+        
+        .redpack{ margin-bottom: 10px;}
+        .redpack .li{
+            float: left;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+        .redpack .li:nth-child(2n){
+            margin-right: 0;
+        }
+        .redpack .item{
+            width: 145px;
+            height: 90px;
+            padding-top: 55px;
+        
+            color: #FFF;
+            text-align: center;
+        
+            border-radius: 5px;
+            background: url(http://gtms01.alicdn.com/tps/i1/T1zAu3Xy4gXXbqT.cq-291-103.png) center top no-repeat;
+            background-size: contain;
+            background-color: #FE5661;
+        }
+        .redpack .item .rmb{
+            display: inline-block;
+            width: 14px;
+            height: 16px;
+            margin-right:3px;
+            background: url(http://gtms02.alicdn.com/tps/i2/T1_.a9FbRhXXbahwTd-33-37.png) no-repeat;
+            background-size: contain;
+        }
+        .redpack .item .money{
+            font-size: 30px;
+            /*font-weight: bold;*/
+        }
+        
+        .redpack .item .date{
+            margin-top: 6px;
+        }
+        
+        #toTop{
+            display: none;
+            opacity: 0;
+        
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        #toTop a{
+            display: inline-block;
+            width: 84px;
+            height: 35px;
+            background: url(http://gtms02.alicdn.com/tps/i2/T1M0SbXxRiXXXCaLnh-168-70.png) center center no-repeat;
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+    <div class="award-wrap">
+        <!-- <div id="loading"></div> -->
+        <div id="nondata" class="msg-none" style="display:none;">
+            <img src="http://gtms01.alicdn.com/tps/i1/T1S.A1Fi0cXXbPM9kj-315-273.png" alt="empty" width="100px">
+            <p id="nondataText">亲，您现在还没有红包，去其它地方逛逛~</p>
+        </div>
+
+        <div id="noRedPack" class="msg-none" style="display:none;">
+            <img src="http://gtms01.alicdn.com/tps/i1/T1kFxuFr4cXXcsSpY4-200-200.png" alt="empty" width="100px">
+            <h4>您还没有红包</h4>
+            <p class="msgtxt">不妨试试去其它地方领取红包</p>
+        </div>
+
+        <div id="bnrLaiwang" style="display:none;">
+            <!--TMS:/rgn/mobile/act/redpakage.html:TMS-->
+        </div>
+        
+        <div class="redpack clx" id="redList"></div>
+
+        <!-- <div class="more"><a id="moreRedpack" href="">查看更多</a></div> -->
+        <!-- <div id="toTop"><a href="#"></a></div> -->
+    </div>
+
+    <script src="http://g.tbcdn.cn/mtb/zepto/1.0.4/zepto.js"></script>
+    <script src="http://g.tbcdn.cn/mtb/??lib-mtop/0.5.13/mtop.js,lib-login/0.2.7/login.js,lib-aplus/1.3.0/aplus.js,lib-notification/0.1.5/notification.js"></script>
+    <script type="text/javascript">
+        ;(function(win, app) {
+            var $ = win['Zepto'];
+            var timer,
+                pagenum = 1,
+                conSize = 30;
+        
+            var redList = $('#redList'),
+                bnrLaiwang = $('#bnrLaiwang'),
+                msgNoRedpack = $('#noRedPack'),
+                nondata = $('#nondata'),
+                nondataText = $('#nondataText');
+        
+            var msgMap = {
+                "error_getRedpack": "获取红包失败，请稍后再试！",
+                "error_nomore": "没有更多了！",
+                "error_server": "服务器开小差了，请稍后再试！",
+                "error_MAX_LIMITED": "查红包的人太多了，您可以去支付宝查看~"
+            }
+        
+            app.bindMore = function() {
+                var btnToTop = $('#toTop');
+        
+                btnToTop.on('click', function(e){
+                    e.preventDefault();
+                    //document.body.scrollTop = 0;
+                    scrollTo(0, 100);
+                });
+        
+                $(win).on('scroll', function(){
+        
+                    clearTimeout( timer );
+                    timer = setTimeout(function(){
+                        if ( document.body.scrollTop > 200 ) {
+                            //
+                            btnToTop.show().animate({
+                                opacity: 1
+                            }, 200, 'ease-in', function(){
+                                $(this).show();
+                            });
+                        } else {
+        
+                            btnToTop.animate({
+                                opacity: 0
+                            }, 200, 'ease-in', function(){
+                                $(this).hide();
+                            });
+                        }
+                    }, 200);
+                });
+        
+                function scrollTo( to, time ) {
+                    var from = parseInt( document.body.scrollTop ),
+                        runEvery = 20,//ms
+                        i = 0;
+                    to = parseInt( to );
+                    time /= runEvery;
+        
+                    var interval = setInterval(function(){
+                        i++;
+        
+                        document.body.scrollTop = from + ( to - from ) / time * i;
+                        if ( i >= time) {
+                            clearInterval( interval );
+                        }
+                    }, runEvery);
+                }
+            };
+        
+            app.showMsg = function( msg ){
+                //console.log( msg );
+                //lib.notification.simple(msg);
+        
+                if ( !!msg && msg !== '' ) {
+                    nondataText.html( msg );
+                }
+                nondata.show();
+            };
+        
+            app.showRedpack = function( data ) {
+                //
+                var i = 0,
+                    key,
+                    money,
+                    startTime = '',
+                    endTime = '',
+                    tempHTML = '',
+                    dataLen = data.length;
+        
+                if ( dataLen < 1 ) {
+                    //没有数据
+                    //redList.html('您还没有领过红包，去其它地方逛逛吧！');
+                    return;
+                }
+        
+                for ( ; i < dataLen; i++ ) {
+                    key = data[i];
+        
+                    money = key.currentAmount; //parseInt(key.currentAmount);//金额`取整
+                    startTime = key.gmtActive.substr(0,4) +'.'+ key.gmtActive.substr(4,2) +'.'+ key.gmtActive.substr(6,2);
+                    endTime = key.gmtExpired.substr(0,4) +'.'+ key.gmtExpired.substr(4,2) +'.'+ key.gmtExpired.substr(6,2);            
+        
+                    tempHTML += '<div class="li"><div class="item">';
+                    tempHTML +=     '<p><span class="rmb"></span><span class="money">'+ money +'</span>';
+                    //tempHTML +=     ' <span>红包</span></p>';
+                    tempHTML +=     '<p class="date">有效期:<br />'+ startTime +' - '+ endTime +'</p>';
+                    tempHTML += '</div></div>';
+                }
+        
+                redList[0].innerHTML = tempHTML;
+            };
+        
+            app.initRedpack = function() {
+                //是否登录
+                if ( !lib.login.isLogin() ) {
+                    lib.login.goLogin();
+                    return;
+                }
+        
+                //红包初始请求
+                lib.mtop.request(
+                    {
+                        api: 'mtop.msp.coupon.getMyLuckyMoney',
+                        v: '1.0',
+                        data: {}
+                    },
+                    function ( dd ) {
+                        var ret = dd.ret[0],
+                            data = dd.data,
+                            keyAlipay = data.result,
+                            hasAccount,
+                            url;
+        
+                        if ( ret ) {
+                            var type = ret.split('::')[0];
+                            if ( type === 'SUCCESS' ) {
+        
+                                //取得key
+                                if ( keyAlipay ) {
+        
+                                    hasAccount = keyAlipay.indexOf('accountNo=null') < 0;
+        
+                                    //accountNo=null, 无支付宝帐号
+                                    if ( !hasAccount ) { 
+                                        app.showMsg();
+                                        return;
+                                    }
+        
+                                    ( location.host.indexOf('waptest') < 0 ) ?
+                                        url = 'https://lab.alipay.com/user/assets/queryCouponInfo.json?_callback=?' :           //线上正式
+                                        url = 'http://personal.stable.alipay.net/user/assets/queryCouponInfo.json?_callback=?'; //日常测试地址
+        
+                                    $.ajax({
+                                        url: url, 
+                                        dataType: 'jsonp',
+                                        data: keyAlipay,
+                                        timeout: 20000,//超时,ms
+                                        success: function( data ) {
+                                            
+                                            if ( data.stat === 'ok' ) {
+                                                var items = data.couponList;
+        
+                                                //没有红包
+                                                if ( items.length < 1 ) {
+                                                
+                                                    //无红包提示
+                                                    msgNoRedpack.show();
+                                                    
+                                                    //是否为来往用户
+                                                    lib.mtop.request(
+                                                        {
+                                                            api: 'mtop.msp.coupon.getLaiWangInform',
+                                                            v: '1.0',
+                                                            data: {}
+                                                        },
+                                                        function(data){
+                                                            //
+                                                            console.log(data['data'].laiwangUser);
+                                                            
+                                                            //非来往用户，显示bnr, 引导下载
+                                                            if ( data['data'].laiwangUser === 'false') {
+                                                                bnrLaiwang.show();
+
+                                                            } else {
+                                                                bnrLaiwang.remove();
+                                                            }
+                                                        },
+                                                        function(){
+                                                            //来往查询失败
+                                                            msgNoRedpack.hide();
+                                                            app.showMsg( msgMap['error_server'] );
+                                                        }
+                                                    );
+                                                    
+                                                    //埋点，没有红包
+                                                    lib.aplus({
+                                                        apuri: 'page_mytaobao_button_mydiscount_red_no',
+                                                        apdata: ''
+                                                    });
+
+                                                    return;
+                                                }
+
+                                                //显示红包
+                                                app.showRedpack( items );
+                                                
+                                                //埋点
+                                                lib.aplus({
+                                                    apuri: 'page_mytaobao_button_mydiscount_red_list',
+                                                    apdata: ''
+                                                });
+
+                                            } else {
+                                                //查询接口关闭 or 限流
+                                                app.showMsg( msgMap['error_MAX_LIMITED'] );
+                                            }
+                                        },
+                                        error: function() {
+                                            //支付宝接口请求失败
+                                            app.showMsg( msgMap['error_server'] );
+                                        }
+                                    });
+                                }
+        
+                            } else {
+                                //Fail: 红包初始获取异常
+                                app.showMsg( msgMap['error_getRedpack'] );
+                            }
+                        }
+                        
+                    },
+                    function ( result ) {
+                        //红包初始请求失败
+                        app.showMsg( msgMap['error_server'] );
+                    }
+                );
+            };
+        
+        })(window, window['app'] || (window['app'] = {}));
+        
+        app.initRedpack();
+    </script>
+
+</body>
+</html>
